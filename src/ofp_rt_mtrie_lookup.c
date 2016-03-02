@@ -144,7 +144,7 @@ int ofp_rtl6_init(struct ofp_rtl6_tree *tree)
 }
 
 
-static int16_t ofp_rt_rule_search(uint16_t vrf, uint32_t addr, uint32_t masklen)
+int16_t ofp_rt_rule_search(uint16_t vrf, uint32_t addr, uint32_t masklen)
 {
 	uint32_t index;
 

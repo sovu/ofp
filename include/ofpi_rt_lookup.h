@@ -73,6 +73,7 @@ extern struct ofp_nh_entry *ofp_rtl_insert(struct ofp_rtl_tree *tree, uint32_t a
 extern struct ofp_nh_entry *ofp_rtl_remove(struct ofp_rtl_tree *tree, uint32_t addr,
 										   uint32_t masklen);
 #ifdef MTRIE
+int16_t ofp_rt_rule_search(uint16_t vrf, uint32_t addr, uint32_t masklen);
 extern void ofp_rt_rule_add(uint16_t vrf, uint32_t addr, uint32_t masklen, struct ofp_nh_entry *data);
 extern void ofp_rt_rule_remove(uint16_t vrf, uint32_t addr, uint32_t masklen);
 extern void ofp_rt_rule_print(int fd, uint16_t vrf,

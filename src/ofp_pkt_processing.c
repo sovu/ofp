@@ -1403,6 +1403,7 @@ enum ofp_return_code ofp_packet_input(odp_packet_t pkt,
 		} else {
 			/* loopback and cunit error */
 			odp_packet_free(pkt);
+			OFP_ERR("return OFP_PKT_DROP\n");
 			return OFP_PKT_DROP;
 		}
 	}

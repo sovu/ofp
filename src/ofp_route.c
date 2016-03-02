@@ -232,6 +232,13 @@ static int del_route(struct ofp_route_msg *msg)
 		   ofp_print_ip_addr(msg->dst), msg->masklen);
 
 	OFP_LOCK_WRITE(route);
+#ifdef MTRIE
+	ofp_rt_rule_remove(msg->vrf, msg->dst, msg->masklen);
+	if (ofp_rt_rule_search(msg->vrf, msg->dst, msg->masklen) > 0) {
+		OFP_UNLOCK_WRITE(route);
+		return 0;
+	}
+#endif
 
 	if (msg->vrf) {
 		struct routes_by_vrf key, *data;
@@ -248,9 +255,6 @@ static int del_route(struct ofp_route_msg *msg)
 		if (!ofp_rtl_remove(&shm->default_routes, msg->dst, msg->masklen))
 			OFP_DBG("ofp_rtl_remove failed");
 	}
-#ifdef MTRIE
-	ofp_rt_rule_remove(msg->vrf, msg->dst, msg->masklen);
-#endif
 
 	OFP_UNLOCK_WRITE(route);
 
