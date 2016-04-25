@@ -26,9 +26,10 @@
 #define OFP_CONFIG_WEBSERVER 1
 #define OFP_CONFIG_NETWRAP_WEBSERVER 2
 
-#define OFP_CONFIG OFP_CONFIG_DEFAULT
+#define OFP_CONFIG OFP_CONFIG_WEBSERVER
 
 /* Enable features */
+#define OFP_RSS
 
 /**Enable PERFORMANCE measurements mode. Some validations are skipped.*/
 /* #define OFP_PERFORMANCE */
