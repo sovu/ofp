@@ -329,6 +329,32 @@ int ofp_ipport_lowlastauto = 40000;	/* 600 */
 int ofp_ipport_firstauto = 1023;	/* sysctl */
 int ofp_ipport_lastauto = 40000;
 
+static inline int get_ofp_ipport_hifirstauto(void)
+{
+	return ofp_ipport_hifirstauto + 10000 * odp_cpu_count();
+}
+static inline int get_ofp_ipport_hilastauto(void)
+{
+	return get_ofp_ipport_hifirstauto() + 9999;
+}
+static inline int get_ofp_ipport_lowfirstauto(void)
+{
+	return ofp_ipport_lowfirstauto + 10000 * odp_cpu_count();
+}
+static inline int get_ofp_ipport_lowlastauto(void)
+{
+	return get_ofp_ipport_lowfirstauto() + 9999;
+}
+static inline int get_ofp_ipport_firstauto(void)
+{
+	return ofp_ipport_firstauto + 10000 * odp_cpu_count();
+}
+static inline int get_ofp_ipport_lastauto(void)
+{
+	return get_ofp_ipport_firstauto() + 9999;
+}
+
+
 /*
  * Reserved ports accessible only to root. There are significant
  * security considerations that must be accounted for when changing these,
@@ -432,16 +458,16 @@ ofp_in_pcb_lport(struct inpcb *inp, struct ofp_in_addr *laddrp, uint16_t *lportp
 	INP_HASH_LOCK_ASSERT(pcbinfo);
 
 	if (inp->inp_flags & INP_HIGHPORT) {
-		first = ofp_ipport_hifirstauto;	/* sysctl */
-		last  = ofp_ipport_hilastauto;
+		first = get_ofp_ipport_hifirstauto();	/* sysctl */
+		last  = get_ofp_ipport_hilastauto();
 		lastport = &pcbinfo->ipi_lasthi;
 	} else if (inp->inp_flags & INP_LOWPORT) {
-		first = ofp_ipport_lowfirstauto;	/* 1023 */
-		last  = ofp_ipport_lowlastauto;	/* 600 */
+		first = get_ofp_ipport_lowfirstauto();	/* 1023 */
+		last  = get_ofp_ipport_lowlastauto();	/* 600 */
 		lastport = &pcbinfo->ipi_lastlow;
 	} else {
-		first = ofp_ipport_firstauto;	/* sysctl */
-		last  = ofp_ipport_lastauto;
+		first = get_ofp_ipport_firstauto();	/* sysctl */
+		last  = get_ofp_ipport_lastauto();
 		lastport = &pcbinfo->ipi_lastport;
 	}
 	/*
