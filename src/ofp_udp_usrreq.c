@@ -89,6 +89,13 @@ extern odp_pool_t ofp_packet_pool;
 #define	M_BCAST		0x00000200 /* send/received as link-level broadcast */
 #define	M_MCAST		0x00000400 /* send/received as link-level multicast */
 
+# define INP_HASH_LOCK_INIT(ipi, d)	odp_rwlock_init(&(ipi)->ipi_hash_lock);
+# define INP_HASH_LOCK_DESTROY(ipi)  rw_destroy(&(ipi)->ipi_hash_lock)
+
+# define INP_HASH_RLOCK(ipi)	odp_rwlock_read_lock(&(ipi)->ipi_hash_lock)
+# define INP_HASH_WLOCK(ipi)	odp_rwlock_write_lock(&(ipi)->ipi_hash_lock)
+# define INP_HASH_RUNLOCK(ipi)	odp_rwlock_read_unlock(&(ipi)->ipi_hash_lock)
+# define INP_HASH_WUNLOCK(ipi)	odp_rwlock_write_unlock(&(ipi)->ipi_hash_lock)
 
 int		ofp_udp_cksum = 1;
 int		ofp_udp_log_in_vain = 0;

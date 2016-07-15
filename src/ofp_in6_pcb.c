@@ -123,6 +123,13 @@ __FBSDID("$FreeBSD: release/9.1.0/sys/netinet6/in6_pcb.c 234279 2012-04-14 10:36
 
 struct	in6_addr zeroin6_addr;
 #endif
+# define INP_HASH_LOCK_INIT(ipi, d)	odp_rwlock_init(&(ipi)->ipi_hash_lock);
+# define INP_HASH_LOCK_DESTROY(ipi)  rw_destroy(&(ipi)->ipi_hash_lock)
+
+# define INP_HASH_RLOCK(ipi)	odp_rwlock_read_lock(&(ipi)->ipi_hash_lock)
+# define INP_HASH_WLOCK(ipi)	odp_rwlock_write_lock(&(ipi)->ipi_hash_lock)
+# define INP_HASH_RUNLOCK(ipi)	odp_rwlock_read_unlock(&(ipi)->ipi_hash_lock)
+# define INP_HASH_WUNLOCK(ipi)	odp_rwlock_write_unlock(&(ipi)->ipi_hash_lock)
 
 int
 ofp_in6_pcbbind(register struct inpcb *inp, struct ofp_sockaddr *nam,

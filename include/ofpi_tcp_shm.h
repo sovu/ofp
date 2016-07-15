@@ -61,3 +61,12 @@ extern __thread struct ofp_tcp_var_mem *shm_tcp;
 #define	V_tcptw_zone		VNET(shm_tcp->tcptw_zone)
 #define	V_tcp_syncache_zone	VNET(shm_tcp->tcp_syncache_zone)
 #define	V_sack_hole_zone	VNET(shm_tcp->ofp_sack_hole_zone)
+
+
+#define INP_HASH_LOCK_INIT(ipi, d)	odp_rwlock_init(&(shm_tcp->ofp_tcbinfo)->ipi_hash_lock);
+#define INP_HASH_LOCK_DESTROY(ipi)  rw_destroy(&(shm_tcp->ofp_tcbinfo)->ipi_hash_lock)
+
+#define INP_HASH_RLOCK(ipi)	odp_rwlock_read_lock(&(shm_tcp->ofp_tcbinfo)->ipi_hash_lock)
+#define INP_HASH_WLOCK(ipi)	odp_rwlock_write_lock(&(shm_tcp->ofp_tcbinfo)->ipi_hash_lock)
+#define INP_HASH_RUNLOCK(ipi)	odp_rwlock_read_unlock(&(shm_tcp->ofp_tcbinfo)->ipi_hash_lock)
+#define INP_HASH_WUNLOCK(ipi)	odp_rwlock_write_unlock(&(shm_tcp->ofp_tcbinfo)->ipi_hash_lock)

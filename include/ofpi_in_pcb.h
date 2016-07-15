@@ -496,6 +496,7 @@ void	inp_4tuple_get(struct inpcb *inp, uint32_t *laddr, uint16_t *lp,
 # define INP_HASH_LOCK_ASSERT(ipi)
 # define INP_HASH_WLOCK_ASSERT(ipi)
 #else
+/*
 # define INP_HASH_LOCK_INIT(ipi, d)	odp_rwlock_init(&(ipi)->ipi_hash_lock);
 # define INP_HASH_LOCK_DESTROY(ipi)  rw_destroy(&(ipi)->ipi_hash_lock)
 
@@ -503,7 +504,7 @@ void	inp_4tuple_get(struct inpcb *inp, uint32_t *laddr, uint16_t *lp,
 # define INP_HASH_WLOCK(ipi)	odp_rwlock_write_lock(&(ipi)->ipi_hash_lock)
 # define INP_HASH_RUNLOCK(ipi)	odp_rwlock_read_unlock(&(ipi)->ipi_hash_lock)
 # define INP_HASH_WUNLOCK(ipi)	odp_rwlock_write_unlock(&(ipi)->ipi_hash_lock)
-
+*/
 # define INP_HASH_LOCK_ASSERT(ipi)	/*rw_assert(&(ipi)->ipi_hash_lock, RA_LOCKED)*/
 # define INP_HASH_WLOCK_ASSERT(ipi)	/*rw_assert(&(ipi)->ipi_hash_lock, RA_WLOCKED)*/
 #endif

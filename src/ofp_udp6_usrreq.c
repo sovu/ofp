@@ -112,6 +112,14 @@ __FBSDID("$FreeBSD: release/9.1.0/sys/netinet6/udp6_usrreq.c 238247 2012-07-08 1
 #include "ofpi_hook.h"
 #include "ofpi_util.h"
 
+# define INP_HASH_LOCK_INIT(ipi, d)	odp_rwlock_init(&(ipi)->ipi_hash_lock);
+# define INP_HASH_LOCK_DESTROY(ipi)  rw_destroy(&(ipi)->ipi_hash_lock)
+
+# define INP_HASH_RLOCK(ipi)	odp_rwlock_read_lock(&(ipi)->ipi_hash_lock)
+# define INP_HASH_WLOCK(ipi)	odp_rwlock_write_lock(&(ipi)->ipi_hash_lock)
+# define INP_HASH_RUNLOCK(ipi)	odp_rwlock_read_unlock(&(ipi)->ipi_hash_lock)
+# define INP_HASH_WUNLOCK(ipi)	odp_rwlock_write_unlock(&(ipi)->ipi_hash_lock)
+
 /*
  * UDP protocol implementation.
  * Per RFC 768, August, 1980.
