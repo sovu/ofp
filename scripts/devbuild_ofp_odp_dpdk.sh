@@ -35,7 +35,7 @@ if [ "$?" != "0" ]; then
 fi
 
 # Build ODP-DPDK
-export CONFIGURE_FLAGS="--enable-debug --enable-debug-print --enable-cunit-support --enable-test-vald --enable-shared=yes"
+export CONFIGURE_FLAGS="--enable-shared=yes"
 odp-dpdk/scripts/devbuild.sh odp
 if [ "$?" != "0" ]; then
     echo "Instaling dpdk failed"
@@ -44,7 +44,7 @@ fi
 
 pushd ${ROOT_DIR}/..
 ./bootstrap
-./configure --with-odp=$REPOS/check-odp/new-build --enable-cunit --enable-debug --prefix=$REPOS/check-odp/new-build --with-odp-lib=odp-dpdk
+./configure --with-odp=$REPOS/check-odp/new-build --enable-cunit --prefix=$REPOS/check-odp/new-build --with-odp-lib=odp-dpdk
 make clean
 make
 make install
